@@ -1,3 +1,5 @@
+-- AVRAda PC fan controller
+
 with AVR.UART; use AVR.UART;
 with Avrada_Rts_Config;
 
