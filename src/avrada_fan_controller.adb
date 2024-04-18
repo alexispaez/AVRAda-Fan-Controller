@@ -1,4 +1,6 @@
 -- AVRAda PC fan controller
+-- The AVR microcontroller will control two PC PWM fans
+-- Based on the temperature read from a MCP9808 sensor
 
 with AVR.UART; use AVR.UART;
 with Avrada_Rts_Config;
