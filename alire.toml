@@ -1,0 +1,24 @@
+name = "avrada_fan_controller"
+description = "A PC fan controller for AVR"
+version = "0.1.0-dev"
+
+authors = ["Jose Alexis Paez Thurgood"]
+maintainers = ["Jose Alexis Paez Thurgood <jose.alexis.paez.thurgood@gmail.com>"]
+maintainers-logins = ["alexispaez"]
+licenses = "GPL-3.0-or-later"
+website = ""
+tags = ["avrada", "arduino", "atmega328p", "pcfancontroller", "mcp9808"]
+
+executables = ["avrada_fan_controller"]
+
+[[depends-on]]
+avrada_rts = "^2.0.1"
+
+[[depends-on]]
+avrada_mcu = "^2.2.0"
+
+[[depends-on]]
+avrada_lib = "^2.1.0"
+
+[[pins]]
+avrada_lib = { path='../avrada_lib_2.1.0' }
