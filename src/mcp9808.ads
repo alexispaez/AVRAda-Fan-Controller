@@ -1,3 +1,5 @@
+-- MCP9808 temperature controller definitions
+
 package MCP9808 is
 
    type MCP9008_Temperature_Sensor is abstract tagged limited private;
