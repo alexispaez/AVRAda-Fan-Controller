@@ -7,6 +7,7 @@
 
 with AVR.UART; use AVR.UART;
 with Avrada_Rts_Config;
+with MCP9808;
 
 procedure Avrada_Fan_Controller is
 begin
