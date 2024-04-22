@@ -7,13 +7,16 @@
 
 with AVR.UART; use AVR.UART;
 with Avrada_Rts_Config;
-with MCP9808;
+with MCP9808.I2C;
 
 procedure Avrada_Fan_Controller is
+   Temperature_Sensor : MCP9808.I2C.MCP9808_Temperature_Sensor_I2C;
 begin
    Init (Baud_19200_16MHz);
 
    Put ("Hello world!");
    New_Line;
+
+   Temperature_Sensor.Initialize;
 
 end Avrada_Fan_Controller;
