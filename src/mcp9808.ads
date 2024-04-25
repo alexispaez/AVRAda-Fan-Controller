@@ -6,16 +6,26 @@ package MCP9808 is
 
    type MCP9808_Temperature_Sensor is abstract tagged limited private;
    
-	subtype Temperature is Float range -45.0 .. 125.0; -- in degrees Celsius
-	type Register_Address is new Unsigned_8;
+   subtype Temperature is Float range -45.0 .. 125.0; -- in degrees Celsius
+   
+   type Resolution_Bits is (Res_05C, Res_025C, Res_0125C, Res_00625C)
+     with Size => 2;
+   	for Resolution_Bits use
+	  (Res_05C => 0, Res_025C => 1, Res_0125C => 2, Res_00625C => 3);
    
    procedure Initialize (This : in out MCP9808_Temperature_Sensor) is abstract;
    
    function Is_Initialized (This : MCP9808_Temperature_Sensor) return Boolean;
    
-   procedure Get_Temperature
+   procedure Get_Ambient_Temperature
      (This : in out MCP9808_Temperature_Sensor;
       Temp : out Temperature;
+      Status : out Boolean) is abstract
+     with Pre'Class => Is_Initialized (This);
+
+   procedure Get_Resolution
+     (This : in out MCP9808_Temperature_Sensor;
+      Resolution : out Resolution_Bits;
       Status : out Boolean) is abstract
      with Pre'Class => Is_Initialized (This);
 
@@ -23,7 +33,9 @@ private
    type MCP9808_Temperature_Sensor is abstract tagged limited record
       Initialized : Boolean := False;
 	end record;
-	
+
+   type Register_Address is new Unsigned_8;
+
 	function Is_Initialized (This : MCP9808_Temperature_Sensor) return Boolean
 	  is (This.Initialized);
 
@@ -35,10 +47,12 @@ private
 	TEMP_AMBIENT        : constant Register_Address := 16#05#;
 	MANUFACTURER_ID     : constant Register_Address := 16#06#;
 	DEVICE_ID           : constant Register_Address := 16#07#;
-	RESOLUTION          : constant Register_Address := 16#08#;
+	RESOLUTION_REG      : constant Register_Address := 16#08#;
 	
 	-- Bit helper representations
-	type Bit is range 0 .. 1 with Size => 1;
+   type Bit is range 0 .. 1 with Size => 1;
+   type Bits is array (Natural range <>) of Bit
+     with Component_Size => 1;
 	type Zero_Bit is range 0 .. 0 with Size => 1;
 	type Zero_Bits is array (Natural range <>) of Zero_Bit
 	  with Component_Size => 1;
@@ -115,7 +129,20 @@ private
       T_LOWER  at 0 range 13 .. 13;
       T_SIGN   at 0 range 12 .. 12;
       T_Buffer at 0 range 0 .. 11;
-	end record;
+   end record;
+   
+   type Ambient_Temperature is record
+      Filler   : Zero_Bits (12 .. 15);
+      Whole    : Unsigned_8;
+      Fraction : Bits (0 .. 3);
+   end record
+     with Size => 16,
+     Independent;
+   for Ambient_Temperature use record
+      Filler   at 0 range 12 .. 15;
+      Whole    at 0 range 4 .. 11;
+      Fraction at 0 range 0 .. 3;
+   end record;
 	
 	-- Manufacturer ID register - 16 bit
 	-- It is a straight 16 bit field, so no special bit representation
@@ -135,10 +162,6 @@ private
 	end record;
 	
 	-- Resolution register - 8 bit
-	type Resolution_Bits is (Res_05C, Res_025C, Res_0125C, Res_00625C)
-	  with Size => 2;
-	for Resolution_Bits use
-	  (Res_05C => 0, Res_025C => 1, Res_0125C => 2, Res_00625C => 3);
 	type Resolution_Register is record
 		Unimplemented : Zero_Bits (2 .. 7);
 		Resolution    : Resolution_Bits;

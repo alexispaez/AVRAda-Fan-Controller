@@ -11,12 +11,19 @@ package MCP9808.I2C is
    procedure Initialize (This : in out MCP9808_Temperature_Sensor_I2C);
    
    overriding
-   procedure Get_Temperature
+   procedure Get_Ambient_Temperature
      (This   : in out MCP9808_Temperature_Sensor_I2C;
       Temp   : out Temperature;
       Status : out Boolean);
 
+   procedure Get_Resolution
+     (This : in out MCP9808_Temperature_Sensor_I2C;
+      Resolution : out Resolution_Bits;
+      Status : out Boolean);
+
 private
+   
+   MCP9808_Address : AVR.I2C.I2C_Address :=  16#18#;
    
    type MCP9808_Temperature_Sensor_I2C is
      new MCP9808_Temperature_Sensor with record
