@@ -22,3 +22,7 @@ avrada_lib = "^2.1.0"
 
 [[pins]]
 avrada_lib = { path='../avrada_lib_2.1.0' }
+
+[configuration.values]
+avrada_rts.AVR_MCU = "atmega328p"
+avrada_rts.Clock_Frequency = 16000000

@@ -1,0 +1,26 @@
+TODO List
+----------
+Add PWM fan control package
+
+Make main loop do:
+	Init UART
+        	Init sensor, display config data
+        	Init PWM controller
+         PWM startup sequence 100% to 0% duty cycle
+         loop
+           Check temperature
+           Set duty cycle accordingly
+           Display temperature and duty cycle
+           wait X seconds
+         end loop
+
+Complete MCP9080 routines
+	Set or read configuration?
+	Set or read temperature limits?
+	Read manufacturer Id
+	Read device Id
+
+Nice to have:
+------------
+Add fan rpm reading
+Leds or screen to show data

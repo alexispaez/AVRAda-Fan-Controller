@@ -1,8 +1,9 @@
+with Interfaces;
 with AVR.I2C;        use AVR.I2C;
 with AVR.I2C.Master;
+with AVR.Interrupts;
 
 with AVR.UART; use AVR.UART;
-with Interfaces;
 
 package body MCP9808.I2C is
    
@@ -26,7 +27,8 @@ package body MCP9808.I2C is
       Temperature          : Ambient_Temperature
         with Address => Temperature_Raw'Address;
    begin
-      -- Get the raw temperature data from the sensor
+		-- Get the raw temperature data from the sensor
+		AVR.Interrupts.Enable;
       Master.Send_And_Receive (This.I2C_Address,
                                        Unsigned_8 (TEMP_AMBIENT),
                                        Temperature_Data_Raw);
@@ -81,7 +83,8 @@ package body MCP9808.I2C is
       Resolution_Data     : Resolution_Register
         with Address => Resolution_Data_Raw'Address;
    begin
-      -- Get the raw resolution data from the sensor
+		-- Get the raw resolution data from the sensor
+		AVR.Interrupts.Enable;
       Master.Send_And_Receive (This.I2C_Address,
                                Unsigned_8(RESOLUTION_REG),
                                Resolution_Data_Raw);

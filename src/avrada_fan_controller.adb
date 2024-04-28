@@ -5,36 +5,37 @@
 -- Then will fall down to 0% duty cycle and the temperature monitoring
 -- will begin
 
-with AVR.UART; use AVR.UART;
-with Avrada_Rts_Config;
-with MCP9808; use MCP9808;
-with MCP9808.I2C;
+with AVRAda_RTS_Config;
+with AVR.UART; 			use AVR.UART;
 with Interfaces;
 with AVR.Wait;
+with MCP9808;			use MCP9808;
+with MCP9808.I2C;
+with PWM_Controller;	use PWM_Controller;
 
 procedure Avrada_Fan_Controller is
    Temperature_Sensor : MCP9808.I2C.MCP9808_Temperature_Sensor_I2C;
    Temp               : Temperature;
-   Status             : Boolean;
-   Resolution         : Resolution_Bits;
+	Stat               : Boolean;
+	Res                : Resolution_Bits;
 
    procedure Wait_1_Sec is new
-     AVR.Wait.Generic_Wait_USecs (Avrada_Rts_Config.Clock_Frequency,
+     AVR.Wait.Generic_Wait_USecs (AVRAda_Rts_Config.Clock_Frequency,
                                   1_000_000);
 begin
    Init (Baud_19200_16MHz);
 
-   Put ("Hello world!");
+   Put ("Initializing AVRAda Fan Controller...");
    New_Line;
 
    Temperature_Sensor.Initialize;
 
-
-   Put ("Getting resolution...");
-   Temperature_Sensor.Get_Resolution (Resolution => Resolution,
-                                      Status => Status);
-   Put ("Resolution is: ");
-   case Resolution is
+   Put ("Getting temperature resolution...");
+   Temperature_Sensor.Get_Resolution (Resolution => Res,
+                                      Status => Stat);
+	Put ("Resolution is: ");
+	begin
+   case Res is
       when Res_05C =>
          Put ("0.5C");
       when Res_025C =>
@@ -43,16 +44,20 @@ begin
          Put ("0.125C");
       when Res_00625C =>
          Put ("0.0625C");
-   end case;
+		end case;
+	exception
+		when others =>
+			Put ("Exception happened! Resolution unknown.");
+	end;
    New_Line;
 
    Endless :
    loop
       Put ("Getting temperature...");
-      Temperature_Sensor.Get_Ambient_Temperature (Temp, Status);
+      Temperature_Sensor.Get_Ambient_Temperature (Temp, Stat);
 
       Put ("Status: ");
-      if Status = True then
+      if Stat = True then
          Put ("True");
       else
          Put ("False");
@@ -64,7 +69,7 @@ begin
          New_Line;
       exception
          when others =>
-            Put ("Exception happened!");
+            Put ("Exception happened! Temperature unknown.");
       end;
 
       Wait_1_Sec;
