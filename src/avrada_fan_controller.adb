@@ -14,7 +14,8 @@ with MCP9808.I2C;
 with PWM_Controller;	use PWM_Controller;
 
 procedure Avrada_Fan_Controller is
-   Temperature_Sensor : MCP9808.I2C.MCP9808_Temperature_Sensor_I2C;
+	Temperature_Sensor : MCP9808.I2C.MCP9808_Temperature_Sensor_I2C;
+	Fan_Controller     : PWM_Controller;
    Temp               : Temperature;
 	Stat               : Boolean;
 	Res                : Resolution_Bits;
@@ -50,6 +51,8 @@ begin
 			Put ("Exception happened! Resolution unknown.");
 	end;
    New_Line;
+
+	Fan_Controller.Initialize;
 
    Endless :
    loop

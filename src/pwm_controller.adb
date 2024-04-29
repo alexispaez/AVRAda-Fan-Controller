@@ -11,6 +11,7 @@ package body PWM_Controller is
 	PB2     : Boolean renames MCU.DDRB_Bits (2);   -- pin 10
 
 	-- PWM Duty cycle values
+	Duty_Top : constant := 320;
 	PB_Duty : Duty_Cycle;
 
 	procedure Initialize is
@@ -24,7 +25,7 @@ package body PWM_Controller is
 		Timer1.Init_PWM_B (Timer1.No_Prescaling, Timer1.Phase_Correct_PWM_ICR, Inverted => False);
 		
 		-- Set top value
-		MCU.ICR1 := 320;
+		MCU.ICR1 := Duty_Top;
 		
 		-- Initialize duty cycle in Output Compare Registers A and B
 		MCU.OCR1A := 0;
@@ -34,24 +35,20 @@ package body PWM_Controller is
 	function Duty_Cycle_To_Unsigned_16 (Duty : in Duty_Cycle)
 												 return Unsigned_16 is
 	begin
-		return 0;
+		return (Unsigned_16(Duty) * Duty_Top) / 100;
 	end Duty_Cycle_To_Unsigned_16;
-
-	function Unsigned_16_To_Duty_Cycle (Value : in Unsigned_16)
-												 return Duty_Cycle is
-	begin
-		return 0;
-	end Unsigned_16_To_Duty_Cycle;
 	
 	procedure Set_Duty_Cycle (Duty : in Duty_Cycle) is
 	begin
-		MCU.OCR1A := 0;
-		MCU.OCR1B := 0;
+		PB_Duty := Duty;
+		
+		MCU.OCR1A := Duty_Cycle_To_Unsigned_16 (Duty);
+		MCU.OCR1B := Duty_Cycle_To_Unsigned_16 (Duty);
 	end Set_Duty_Cycle;
 	
 	procedure Get_Duty_Cycle (Duty : out Duty_Cycle) is
 	begin
-		null;
+		Duty := PB_Duty;
 	end Get_Duty_Cycle;
 
 end PWM_Controller;

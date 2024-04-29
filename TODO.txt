@@ -1,6 +1,7 @@
 TODO List
 ----------
 Add PWM fan control package
+	Create fan controller type
 
 Make main loop do:
 	Init UART

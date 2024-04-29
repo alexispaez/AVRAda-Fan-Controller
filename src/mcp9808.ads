@@ -66,6 +66,7 @@ private
 	  with Size => 2;
 	for Temperature_Hysteresis_Bits use
 	  (Hys_00C => 0, Hys_15C => 1, Hys_30C => 2, Hys_60C => 3);
+
 	type Configuration_Register is record
 		Unimplemented : Zero_Bits (11 .. 15);
 		T_HIST        : Temperature_Hysteresis_Bits;
@@ -97,6 +98,7 @@ private
 	
 	-- Upper, lower and critital temperature limit register - 16 bit
 	type Temperature_Limit_Bits is mod 2 ** 10 with Size => 10;
+
 	type Temperature_Limit_Register is record
 		Unimplemented_1  : Zero_Bits (13 .. 15);
 		T_SIGN           : Boolean;
@@ -114,6 +116,7 @@ private
 	
 	-- Ambient temperature register - 16 bit
 	type Ambient_Temperature_Bits is mod 2 ** 12 with Size => 12;
+
    type Ambient_Temperature_Register is record
       T_CRIT   : Boolean;
       T_UPPER  : Boolean;
