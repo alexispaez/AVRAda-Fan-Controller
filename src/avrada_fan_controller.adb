@@ -15,7 +15,7 @@ with PWM_Controller;	use PWM_Controller;
 
 procedure Avrada_Fan_Controller is
 	Temperature_Sensor : MCP9808.I2C.MCP9808_Temperature_Sensor_I2C;
-	Fan_Controller     : PWM_Controller;
+	Fan_Controller     : PWM_Fan_Controller;
    Temp               : Temperature;
 	Stat               : Boolean;
 	Res                : Resolution_Bits;

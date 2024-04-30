@@ -12,7 +12,6 @@ package body PWM_Controller is
 
 	-- PWM Duty cycle values
 	Duty_Top : constant := 320;
-	PB_Duty : Duty_Cycle;
 
 	procedure Initialize is
 	begin
