@@ -8,26 +8,29 @@ package MCP9808 is
    
    subtype Temperature is Float range -45.0 .. 125.0; -- in degrees Celsius
    
-   type Resolution_Bits is (Res_05C, Res_025C, Res_0125C, Res_00625C)
+	type Resolution_Bits is (Res_05C,
+								  Res_025C,
+								  Res_0125C,
+								  Res_00625C)
      with Size => 2;
-   	for Resolution_Bits use
-	  (Res_05C => 0, Res_025C => 1, Res_0125C => 2, Res_00625C => 3);
+	for Resolution_Bits use (Res_05C   => 0,
+								  Res_025C   => 1,
+								  Res_0125C  => 2,
+								  Res_00625C => 3);
    
    procedure Initialize (This : in out MCP9808_Temperature_Sensor) is abstract;
    
    function Is_Initialized (This : MCP9808_Temperature_Sensor) return Boolean;
    
-   procedure Get_Ambient_Temperature
-     (This : in out MCP9808_Temperature_Sensor;
-      Temp : out Temperature;
-      Status : out Boolean) is abstract
-     with Pre'Class => Is_Initialized (This);
+	procedure Get_Ambient_Temperature (This : in out MCP9808_Temperature_Sensor;
+												Temp : out Temperature;
+												Status : out Boolean) is abstract
+	  with Pre'Class => Is_Initialized (This);
 
-   procedure Get_Resolution
-     (This : in out MCP9808_Temperature_Sensor;
-      Resolution : out Resolution_Bits;
-      Status : out Boolean) is abstract
-     with Pre'Class => Is_Initialized (This);
+	procedure Get_Resolution (This      : in out MCP9808_Temperature_Sensor;
+									Resolution : out Resolution_Bits;
+									Status     : out Boolean) is abstract
+	  with Pre'Class => Is_Initialized (This);
 
 private
    type MCP9808_Temperature_Sensor is abstract tagged limited record
@@ -62,10 +65,15 @@ private
 	type Register_Data_8 is new Unsigned_8;
 	
 	-- Configuration register - 16 bit
-	type Temperature_Hysteresis_Bits is (Hys_00C, Hys_15C, Hys_30C, Hys_60C)
+	type Temperature_Hysteresis_Bits is (Hys_00C,
+												  Hys_15C,
+												  Hys_30C,
+												  Hys_60C)
 	  with Size => 2;
-	for Temperature_Hysteresis_Bits use
-	  (Hys_00C => 0, Hys_15C => 1, Hys_30C => 2, Hys_60C => 3);
+	for Temperature_Hysteresis_Bits use (Hys_00C => 0,
+												  Hys_15C => 1,
+												  Hys_30C => 2,
+												  Hys_60C => 3);
 
 	type Configuration_Register is record
 		Unimplemented : Zero_Bits (11 .. 15);

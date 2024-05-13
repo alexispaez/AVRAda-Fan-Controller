@@ -11,8 +11,8 @@ package MCP9808.I2C is
    procedure Initialize (This : in out MCP9808_Temperature_Sensor_I2C);
    
    overriding
-   procedure Get_Ambient_Temperature
-     (This   : in out MCP9808_Temperature_Sensor_I2C;
+	procedure Get_Ambient_Temperature
+	  (This : in out MCP9808_Temperature_Sensor_I2C;
       Temp   : out Temperature;
       Status : out Boolean);
 

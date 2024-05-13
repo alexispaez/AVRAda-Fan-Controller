@@ -13,7 +13,7 @@ project Avrada_Fan_Controller is
    for Main use ("avrada_fan_controller.adb");
 
    package Compiler is
-      for Default_Switches ("ada") use Avr_Tool_Options.All_Adaflags;
+      for Default_Switches ("ada") use ("-gnatef", "-fverbose-asm", "-gnateDMCU=atmega328p", "-fcallgraph-info=su,da", "-ffunction-sections", "-fdata-sections", "-mmcu=atmega328p", "-Og", "-gdwarf-2", "-gnata");
    end Compiler;
 
    package Binder is

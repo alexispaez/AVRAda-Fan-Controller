@@ -6,15 +6,21 @@ package PWM_Controller is
 
    type Duty_Cycle is range 0 .. 100;
 
-   procedure Initialize;
+	procedure Initialize (This : in out PWM_Fan_Controller);
 
-   procedure Set_Duty_Cycle (Duty : in Duty_Cycle);
-   procedure Get_Duty_Cycle (Duty : out Duty_Cycle);
+	procedure Startup (This : in out PWM_Fan_Controller);
+
+	procedure Set_Duty_Cycle (This : in out PWM_Fan_Controller;
+									Duty : in Duty_Cycle);
+	procedure Get_Duty_Cycle (This : in out PWM_Fan_Controller;
+									Duty : out Duty_Cycle);
 
 private
-   type PWM_Fan_Controller is tagged limited record
-      PB_Duty     : Duty_Cycle;
-      Initialized : Boolean;
+	Duty_Top    : constant := 320;
+
+	type PWM_Fan_Controller is tagged limited record
+		Initialized : Boolean;
+		PB_Duty     : Duty_Cycle;
    end record;
 
 end PWM_Controller;
