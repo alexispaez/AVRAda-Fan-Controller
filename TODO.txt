@@ -8,5 +8,6 @@ Complete MCP9080 routines
 
 Nice to have:
 ------------
+Set a threshold for changing duty cycle when close to activation temp?
 Add fan rpm reading
 Leds or screen to show data
