@@ -5,9 +5,9 @@ Complete MCP9080 routines
 	Set or read temperature limits?
 	Read manufacturer Id
 	Read device Id
+        Other functionality?
 
 Nice to have:
 ------------
-Set a threshold for changing duty cycle when close to activation temp?
 Add fan rpm reading
 Leds or screen to show data
