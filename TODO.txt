@@ -7,6 +7,12 @@ Complete MCP9080 routines
 	Read device Id
         Other functionality?
 
+Possible refactoring:
+--------------------
+Rewrite Put with Ada 2022 Image for Temperature, Resolution
+Make Range_Type generic?
+Review the exception treatment
+
 Nice to have:
 ------------
 Add fan rpm reading
